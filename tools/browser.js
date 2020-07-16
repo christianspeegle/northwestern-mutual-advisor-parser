@@ -35,9 +35,11 @@ async function getAdvisorLinks(urls) {
 		// We also need to convert this to a Javascript array so we can iterate over it
 		// (document.getElement____ functions return an HTMLCollection
 		// which sound like an array but isn't)
+		// Finally, use .map to pull just the a.href property off the <a> tags
+		// since that's all we want
 		const anchorElements = await page.evaluate(() => Array.from(document.getElementsByTagName("a")).map(a => a.href))
 
-		// Process the a.href property from each element
+		// Process the href property from each element
 		anchorElements.map(a => {
 			// We need to make sure the anchor is not undefined before we use it
 			// Otherwise the program will crash
@@ -54,7 +56,7 @@ async function getAdvisorLinks(urls) {
 			if (href.charAt(href.length - 1) === "/")
 				href = href.substring(0, href.length - 1)
 
-			// If the href includes financial/advisors
+			// If the href includes financial/advisor/
 			// AND if # isn't the end of the string (the menu contains a javascript link with a # at the end)
 			// then we found usselves a financial advisor URL, so save it
 			if (href.includes("financial/advisor/") && !href.endsWith("#"))
