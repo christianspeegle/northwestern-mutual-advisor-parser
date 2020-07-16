@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/christianspeegle/northwestern-mutual-advisor-parser/issues"
   },
-  "homepage": "https://github.com/christianspeegle/northwestern-mutual-advisor-parser#readme"
+  "homepage": "https://github.com/christianspeegle/northwestern-mutual-advisor-parser#readme",
+  "dependencies": {
+    "puppeteer": "^5.1.0"
+  }
 }
