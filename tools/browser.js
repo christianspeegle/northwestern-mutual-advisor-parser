@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer")
  * Gets all links from a page containing an Advisor link
  *
  * @param {string[]} urls The state abbreviations to get advisors for
- * @returns {Promise<string[]>}
+ * @returns {Promise<string[]>} The Advisor URLs
  */
 async function getAdvisorLinks(urls) {
 	// This is what we want to get. It's the whole point of the function
@@ -35,9 +35,11 @@ async function getAdvisorLinks(urls) {
 		// We also need to convert this to a Javascript array so we can iterate over it
 		// (document.getElement____ functions return an HTMLCollection
 		// which sound like an array but isn't)
+		// Finally, use .map to pull just the a.href property off the <a> tags
+		// since that's all we want
 		const anchorElements = await page.evaluate(() => Array.from(document.getElementsByTagName("a")).map(a => a.href))
 
-		// Process the a.href property from each element
+		// Process the href property from each element
 		anchorElements.map(a => {
 			// We need to make sure the anchor is not undefined before we use it
 			// Otherwise the program will crash
@@ -54,7 +56,7 @@ async function getAdvisorLinks(urls) {
 			if (href.charAt(href.length - 1) === "/")
 				href = href.substring(0, href.length - 1)
 
-			// If the href includes financial/advisors
+			// If the href includes financial/advisor/
 			// AND if # isn't the end of the string (the menu contains a javascript link with a # at the end)
 			// then we found usselves a financial advisor URL, so save it
 			if (href.includes("financial/advisor/") && !href.endsWith("#"))
@@ -70,6 +72,66 @@ async function getAdvisorLinks(urls) {
 	return advisorUrls
 }
 
+/**
+ * Gathers data on Northwestern Mutual advisors and compiles it into normalized objects
+ *
+ * @param {string[]} urls The advisor profile URLs to scrape
+ * @returns {Promise<Object[]>} An array of advisor data objects
+ */
+async function getAdvisorData(urls) {
+	const advisorData = []
+
+	// You know the drill
+	const browser = await puppeteer.launch()
+	const page = await browser.newPage()
+	let counter = 0
+	let total = urls.length
+
+	for (url of urls) {
+		// Since this program can take so long
+		// Display a visual indicator of progress
+		console.log(`Starting advisor ${++counter} of ${total}`)
+
+		// Load the page, blah blah, more of the same
+		await page.goto(url)
+
+		// Execute Javascript against the rendered page
+		// Remember, everything in the evaluate callback is local to the webpage
+		// It can't be used outside the webpage,
+		// and it can't modify variables outside its own scope
+		// Otherwise, the 'advisor' const could be out here
+		// instead of essentially saving it twice
+		const advisorInfo = await page.evaluate(() => {
+			// First, get the profile sidebar because all the data will be there
+			const profile = document.getElementsByClassName("profile--sidebar")[0]
+
+			// Advisor data needs stored somewhere
+			const advisor = {}
+
+			// The advisor name is in the <h1> within the sidebar
+			advisor.name = profile.getElementsByTagName("h1")[0].innerText.trim()
+
+			// The advisor address is in the <address> within the sidebar
+			advisor.address = profile.getElementsByTagName("address")[0].innerText.trim()
+
+			// The advisor phone has a unique class: .profile--phone-link
+			advisor.phone = profile.getElementsByClassName("profile--phone-link")[0].innerText.trim()
+
+			// The advisor website has a unique class: .profile--website-link
+			advisor.url = profile.getElementsByClassName("profile--website-link")[0].href
+
+			return advisor
+		})
+
+		// Save the advisor to the data
+		advisorData.push(advisorInfo)
+	}
+
+	// Give the user their data
+	return advisorData
+}
+
 module.exports = {
-	getAdvisorLinks
+	getAdvisorLinks,
+	getAdvisorData
 }

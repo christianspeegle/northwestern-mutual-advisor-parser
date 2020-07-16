@@ -1,4 +1,4 @@
-const { getAdvisorLinks } = require("./tools/browser")
+const { getAdvisorLinks, getAdvisorData } = require("./tools/browser")
 
 // All financial advisor URLs start with this base URL
 const urlPrefix = "https://northwesternmutual.com/financial/advisors"
@@ -27,7 +27,12 @@ stateNames.forEach(state => {
 
 // Run the program to get the advisor links
 getAdvisorLinks(stateUrls)
-	.then(advisors => {
-		console.log("Process completed!")
+	.then(advisorLinks => {
+		return getAdvisorData(advisorLinks)
 	})
-	.catch(error => console.log(`There was a problem: ${error.message}`) && process.exit(1))
+	.then(advisorData => console.log(advisorData))
+	.catch(error => {
+		console.log(`There was a problem: ${error.message}`)
+		process.exit(1)
+	})
+	.then(() => process.exit(0))
