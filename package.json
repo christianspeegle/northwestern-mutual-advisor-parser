@@ -1,0 +1,22 @@
+{
+  "name": "northwestern-mutual-advisor-parser",
+  "version": "1.0.0",
+  "description": "A CLI program to generate a CSV file from Northwestern Mutual Financial Advisors' public information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianspeegle/northwestern-mutual-advisor-parser.git"
+  },
+  "author": {
+    "name": "Vincent Nolden",
+    "email": "v.m.nolden@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christianspeegle/northwestern-mutual-advisor-parser/issues"
+  },
+  "homepage": "https://github.com/christianspeegle/northwestern-mutual-advisor-parser#readme"
+}
