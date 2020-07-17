@@ -27,7 +27,7 @@ async function getAdvisorLinks(urls) {
 	// So we need to take these pages one at a time without blocking the thread
 	// Hence, we will use the unusual for...of loop
 	// which is the only Javascript loop that allows asynchronous operations to await
-	for (url of urls) {
+	for (let url of urls) {
 		// Go to the page for each state
 		await page.goto(url)
 
@@ -87,7 +87,7 @@ async function getAdvisorData(urls) {
 	let counter = 0
 	const total = urls.length
 
-	for (url of urls) {
+	for (let url of urls) {
 		// Since this program can take so long
 		// Display a visual indicator of progress
 		console.log(`Starting advisor ${++counter} of ${total}`)
