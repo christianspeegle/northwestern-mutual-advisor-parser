@@ -106,19 +106,21 @@ async function getAdvisorData(urls) {
 			const profile = document.getElementsByClassName("profile--sidebar")[0]
 
 			// Advisor data needs stored somewhere
-			const advisor = {}
+			// CSV parser expects this to be a string[]
+			const advisor = []
 
 			// The advisor name is in the <h1> within the sidebar
-			advisor.name = profile.getElementsByTagName("h1")[0].innerText.trim()
+			advisor.push(profile.getElementsByTagName("h1")[0].innerText.trim())
 
 			// The advisor address is in the <address> within the sidebar
-			advisor.address = profile.getElementsByTagName("address")[0].innerText.trim()
+			// Replace that pesky newline so everything is on one line
+			advisor.push(profile.getElementsByTagName("address")[0].innerText.replace("\n", " ").trim())
 
 			// The advisor phone has a unique class: .profile--phone-link
-			advisor.phone = profile.getElementsByClassName("profile--phone-link")[0].innerText.trim()
+			advisor.push(profile.getElementsByClassName("profile--phone-link")[0].innerText.trim())
 
 			// The advisor website has a unique class: .profile--website-link
-			advisor.url = profile.getElementsByClassName("profile--website-link")[0].href
+			advisor.push(profile.getElementsByClassName("profile--website-link")[0].href)
 
 			return advisor
 		})
