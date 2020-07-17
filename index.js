@@ -1,4 +1,5 @@
 const { getAdvisorLinks, getAdvisorData } = require("./tools/browser")
+const { writeToCsv } = require("./tools/output")
 
 // All financial advisor URLs start with this base URL
 const urlPrefix = "https://northwesternmutual.com/financial/advisors"
@@ -30,7 +31,7 @@ getAdvisorLinks(stateUrls)
 	.then(advisorLinks => {
 		return getAdvisorData(advisorLinks)
 	})
-	.then(advisorData => console.log(advisorData))
+	.then(advisorData => writeToCsv(advisorData))
 	.catch(error => {
 		console.log(`There was a problem: ${error.message}`)
 		process.exit(1)
