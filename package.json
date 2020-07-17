@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/christianspeegle/northwestern-mutual-advisor-parser#readme",
   "dependencies": {
+    "@fast-csv/format": "^4.3.1",
     "puppeteer": "^5.1.0"
   }
 }
