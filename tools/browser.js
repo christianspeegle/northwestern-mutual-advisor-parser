@@ -85,7 +85,7 @@ async function getAdvisorData(urls) {
 	const browser = await puppeteer.launch()
 	const page = await browser.newPage()
 	let counter = 0
-	let total = urls.length
+	const total = urls.length
 
 	for (url of urls) {
 		// Since this program can take so long
