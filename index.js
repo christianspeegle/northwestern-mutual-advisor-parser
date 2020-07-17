@@ -28,9 +28,7 @@ stateNames.forEach(state => {
 
 // Run the program to get the advisor links
 getAdvisorLinks(stateUrls)
-	.then(advisorLinks => {
-		return getAdvisorData(advisorLinks)
-	})
+	.then(advisorLinks => getAdvisorData(advisorLinks))
 	.then(advisorData => writeToCsv(advisorData))
 	.catch(error => {
 		console.log(`There was a problem: ${error.message}`)
