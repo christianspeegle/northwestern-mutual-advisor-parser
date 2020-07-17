@@ -107,3 +107,6 @@ dist
 .idea
 .vs
 .vscode
+
+# Program output
+*.csv
