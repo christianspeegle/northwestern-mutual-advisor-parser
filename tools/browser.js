@@ -84,6 +84,23 @@ async function getAdvisorData(urls) {
 	// You know the drill
 	const browser = await puppeteer.launch()
 	const page = await browser.newPage()
+
+	// Intercept requests to certain URLs
+	const blacklist = [
+		"tags.w55c.net"
+	]
+
+	await page.setRequestInterception(true)
+
+	page.on("request", interceptedRequest => {
+		if (blacklist.includes(new URL(interceptedRequest.url()).host)) {
+			interceptedRequest.abort()
+		} else {
+			interceptedRequest.continue()
+		}
+	})
+
+	// Continue on with requests
 	let counter = 0
 	const total = urls.length
 
