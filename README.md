@@ -16,7 +16,8 @@ Running the code is pretty basic.
 
 1. Ensure [Node.js](https://nodejs.org/en/download/) is installed on your computer
 2. Open a command prompt and `cd` into the directory containing the project `package.json` file
-3. Enter this command: `node index.js x y z` where `x`, `y`, and `z` are state abbreviations for the states you need to parse.
+3. Install the project dependencies by running `npm i`
+4. Execute the program by running `node index.js x y z` where `x`, `y`, and `z` are state abbreviations for the states you need to parse.
 
 For example, to get information on financial advisors from Alabama, Ohio, Florida, Texas, and Wyoming, run this command:
 
