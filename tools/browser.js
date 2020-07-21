@@ -139,6 +139,21 @@ async function getAdvisorData(urls) {
 			// The advisor website has a unique class: .profile--website-link
 			advisor.push(profile.getElementsByClassName("profile--website-link")[0].href)
 
+			// Convert the advisor name to their email address
+			// First, get the advisor name, which is the first element in the advisor array
+			// Then, split that into an array along an empty space
+			// Then, take the first and last element of that array
+			// (if their middle name(s) appear in their profile,
+			// we need to ignore these - so just take the first and last element)
+			// Finally, join those into the new string
+			// and add this to the advisor data
+			const advisorName = advisor[0]
+			const names = advisorName.split(" ")
+			const emailNames = [names[0], names[names.length - 1]]
+			const email = `${emailNames.join(".")}@nm.com`.toLowerCase()
+
+			advisor.push(email)
+
 			return advisor
 		})
 
